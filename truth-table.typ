@@ -23,7 +23,7 @@
 }
 
 #let func_body_predprosesor(fn_str) = {
-  fn_str.replace("<=", "->").replace("==", "sym.eq.triple")
+  fn_str.replace("<=", "->").replace("==", "eq.triple").trim()
 }
 
 #let parse_func(fn) = {
