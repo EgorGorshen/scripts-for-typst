@@ -1,8 +1,6 @@
 
 #import "@preview/suiji:0.3.0": *
 
-#set text(size: 18pt)
-
 #let M = matrix => math.mat(..matrix)
 #let matT = matrix => {
   let ret = ()
@@ -29,8 +27,6 @@
   returner
 }
 
-#let grn = gen-rng(122)
-
 #let rmatI = (n, m, rn) => rmatrix(n, m, rn: rn)
 #let rmatF = (n, m, rn, fr: 2) => rmatrix(n, m, tp: "float", fround: fr)
 
@@ -38,7 +34,7 @@
 
 #let matSum(A, B) = {
   if A.len() != B.len() and A.at(0).len() != B.at(0).len() {
-    return "Матрицы не совпадают по размерам"
+    panic("Матрицы не совпадают по размерам")
   }
   let ret = ()
 
@@ -56,7 +52,7 @@
 
 #let matMult(A, B) = {
   if A.at(0).len() != B.len() {
-    return "Ошибка: не соответсвие размеров матриц"    
+    panic("Ошибка: не соответсвие размеров матриц") 
   }
   let BT = matT(B)
   let ret = ()
@@ -74,11 +70,15 @@
   ret
 }
 
-
 #let matDet(A) = {
   let ret = 0
+
+  if A.len() == 0 {
+    panic("matrix is empty", A)    
+  }
+
   if A.len() != A.at(0).len() {
-    return "Ошибка: невозможно вычислить det `col.len() != line.len()`"
+    panic("Ошибка: невозможно вычислить det `col.len() != line.len()`")
   }
   if A.len() == 1 {
     return A.at(0).at(0)
@@ -98,3 +98,37 @@
   }
   return ret
 }
+
+#let matTranc(A) = {
+  let ret = ()
+  for j in range(A.at(0).len()) {
+    let r = ()
+    for i in range(A.len()) {
+      r.push(A.at(i).at(j))
+    }
+    ret.push(r)
+  }
+  ret
+}
+
+#let matMinorWithNums(A) = {
+  let ret = ()
+  for i in range(A.len()) {
+    let r = ()
+    for j in range(A.at(0).len()) {
+      let B = A
+      B.remove(i)
+      B = B.map(x => {
+        x.remove(j)
+        return x
+      })
+      r.push(matDet(B))
+    }
+    ret.push(r)
+  }
+  ret
+}
+
+#let matMinor = mt => matMinorWithNums(mt).filter(x => not(type(x) in (type(0), type(1.1))))
+
+#let matMinus1Pow = mt => matMultAlpha(matTranc(matMinor(mt)), 1/matDet(mt))
