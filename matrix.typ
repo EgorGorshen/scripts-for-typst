@@ -122,7 +122,7 @@
         x.remove(j)
         return x
       })
-      r.push(matDet(B))
+      r.push(calc.pow(-1, i + j) * matDet(B))
     }
     ret.push(r)
   }
@@ -131,4 +131,4 @@
 
 #let matMinor = mt => matMinorWithNums(mt).filter(x => not(type(x) in (type(0), type(1.1))))
 
-#let matMinus1Pow = mt => matMultAlpha(matTranc(matMinor(mt)), 1/matDet(mt))
+#let matMinus1Pow = mt => matMultAlpha(matMinor(matT(mt)), 1/matDet(mt))
