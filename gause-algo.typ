@@ -1,4 +1,3 @@
-#import "./lib.typ": *
 #import "@preview/pyrunner:0.1.0" as py
 
 #let compiled = py.compile(
@@ -66,38 +65,6 @@ def gaussian_elimination_solution(matrix, name="A"):
 ```)
 
 
-
-
 #let gaussian_method(matrix, name: "A") = {
   eval(py.call(compiled, "gaussian_elimination_solution", matrix, name), mode: "markup")
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#let A = ((4, 20, 3), (2, 44, 5))
-#gaussian_method(A)
-
-
-
-
-
-
