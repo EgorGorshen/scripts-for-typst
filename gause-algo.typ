@@ -51,9 +51,9 @@ def gaussian_elimination_solution(matrix, name="A"):
         if method == "swap":
             res = from_ + f" |=>^({args[0]} <-> {args[1]}) " + to
         elif method == "normalize":
-            res = from_ + f" |=>^({name}_({args[0]}) dot {args[2]}) " + to
+            res = from_ + f" |=>^({name}_({args[0]}) / ({args[1]})) " + to
         elif method == "zero_elem":
-            res = from_ + f" |=>^({name}_({args[0]}) - {name}_({args[1]}) dot {args[2]}) " + to
+            res = from_ + f" |=>^({name}_({args[0]}) {'-' if args[2] >= 0 else '+'} {abs(args[2])} dot {name}_({args[1]})) " + to
         elif method == "done":
             res = to
 
@@ -93,7 +93,7 @@ def gaussian_elimination_solution(matrix, name="A"):
 
 
 
-#let A = ((1, 2, 3), (2, 44, 5))
+#let A = ((4, 20, 3), (2, 44, 5))
 #gaussian_method(A)
 
 
