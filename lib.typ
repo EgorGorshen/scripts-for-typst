@@ -3,8 +3,6 @@
 #import "utils.typ": *
 #import "gause-algo.typ": *
 
-// TODO: в truthTable добавить возможность настраивать true и false
-
 /*
   Утилита для оформления вопросов запросов etc...
 

@@ -123,3 +123,38 @@
 #let matMinor = mt => matMinorWithNums(mt).filter(x => not(type(x) in (type(0), type(1.1))))
 
 #let matMinus1Pow = mt => matMultAlpha(matMinor(matT(mt)), 1 / matDet(mt))
+
+#let matPrintAsCases(matrix) = {
+  let x = i => "x_" + str(i+1)
+
+  let lines = ()
+  for line in matrix {
+    let ret = ""
+    for i in range(line.len()) {
+      let num = eval(str(line.at(i)), mode: "code")
+      let n = str(line.at(i))
+      if ret == "" {
+        if num == 0 {
+          continue
+        }
+        if num == 1 {
+          ret += x(i)
+        } else if num == -1 {
+          ret += "-" + x(i)
+        } else {
+          ret += n + x(i)
+        }
+      } else if i == line.len() - 1 {
+        ret += " = " + n
+      }else if num == 1 {
+        ret += " + " + x(i)
+      } else if num > 0 {
+        ret += " + " + n + x(i)
+      } else if num < 0 {
+        ret += n + x(i)        
+      }
+    }
+    lines.push(eval(ret, mode: "math"))
+  }
+  return math.cases(..lines)
+}
