@@ -154,7 +154,10 @@
         ret += n + x(i)        
       }
     }
+    if res != "" {
+
     lines.push(eval(ret, mode: "math"))
+    }
   }
   return math.cases(..lines)
 }
