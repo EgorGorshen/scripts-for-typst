@@ -14,15 +14,15 @@
   ret
 }
 
-#let rmatrix(n, m, mn:-20, mx: 20, rn:122, tp: "int", fround: 2) = {
+#let rmatrix(n, m, mn: -20, mx: 20, rn: 122, tp: "int", fround: 2) = {
   let returner = ()
-  let rnfn = if tp == "int" {integers} else if tp == "float" {uniform}
+  let rnfn = if tp == "int" { integers } else if tp == "float" { uniform }
   let rng = gen-rng(rn)
   let r = ()
   for i in range(n) {
     (rng, r) = rnfn(rng, low: mn, high: mx, size: m)
     r = r.map((x) => calc.round(x, digits: fround))
-    returner.push(r)    
+    returner.push(r)
   }
   returner
 }
@@ -33,15 +33,17 @@
 #let matMultAlpha = (A, alpha) => A.map((x) => x.map((n) => n * alpha))
 
 #let matSum(A, B) = {
-  if A.len() != B.len() and A.at(0).len() != B.at(0).len() {
-    panic("Матрицы не совпадают по размерам")
-  }
+  assert.ne(A.len(), B.len(), message: "Матрицы не совпадают по размерам")
+  assert.ne(
+    A.at(0).len(), B.at(0).len(), message: "Матрицы не совпадают по размерам",
+  )
+
   let ret = ()
 
   for i in range(A.len()) {
     let r = ()
     for j in range(A.at(0).len()) {
-        r.push(A.at(i).at(j) + B.at(i).at(j))
+      r.push(A.at(i).at(j) + B.at(i).at(j))
     }
     ret.push(r)
   }
@@ -51,9 +53,10 @@
 #let matMinus = (A, B) => matSum(A, matMultAlpha(B, -1))
 
 #let matMult(A, B) = {
-  if A.at(0).len() != B.len() {
-    panic("Ошибка: не соответсвие размеров матриц") 
-  }
+  assert.ne(
+    A.at(0).len(), B.len(), message: "Ошибка: не соответсвие размеров матриц",
+  )
+
   let BT = matT(B)
   let ret = ()
 
@@ -71,18 +74,17 @@
 }
 
 #let matDet(A) = {
+  assert.eq(A.len(), 0, message: "matrix is empty")
+  assert.ne(
+    A.len(), A.at(0).len(), message: "Ошибка: невозможно вычислить det `col.len() != line.len()`",
+  )
+
   let ret = 0
 
-  if A.len() == 0 {
-    panic("matrix is empty", A)    
-  }
-
-  if A.len() != A.at(0).len() {
-    panic("Ошибка: невозможно вычислить det `col.len() != line.len()`")
-  }
   if A.len() == 1 {
     return A.at(0).at(0)
   }
+
   for i in range(A.len()) {
     let subMatrix = ()
     for j in range(1, A.len()) {
@@ -131,4 +133,4 @@
 
 #let matMinor = mt => matMinorWithNums(mt).filter(x => not(type(x) in (type(0), type(1.1))))
 
-#let matMinus1Pow = mt => matMultAlpha(matMinor(matT(mt)), 1/matDet(mt))
+#let matMinus1Pow = mt => matMultAlpha(matMinor(matT(mt)), 1 / matDet(mt))

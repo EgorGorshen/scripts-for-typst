@@ -29,30 +29,25 @@
 #let parse_func(fn) = {
   let args = fn.match(regex("^\(([^)]+)\)\s*=>\s*\{([^}]+)\}")).captures
   let args = (
-    args: args.at(0).split(",").map(x => {eval(x.trim(), mode: "math")}),
-    func_body: func_body_predprosesor(args.at(1))
+    args: args.at(0).split(",").map(x => { eval(x.trim(), mode: "math") }), func_body: func_body_predprosesor(args.at(1)),
   )
   args
 }
 
 #let truthTable(fn_str) = {
   let shfn = parse_func(fn_str)
-  
-  let fal = table.cell(
-    fill: red.lighten(60%)
-  )[false]
 
-  let tru = table.cell(
-    fill: green.lighten(60%)
-  )[true]
+  let fal = table.cell(fill: red.lighten(60%))[false]
 
-  let name = i => table.cell(
-    fill: gray.lighten(60%)
-  )[$#i$]
+  let tru = table.cell(fill: green.lighten(60%))[true]
+
+  let name = i => table.cell(fill: gray.lighten(60%))[$#i$]
 
   // ---- table predproses
   let tb = truthTableArrayArray(eval(fn_str, mode: "code"), shfn.args.len())
-  tb = tb.flatten().map(x => if x == true {tru} else {fal})
+  tb = tb.flatten().map(x => if x == true { tru } else { fal })
 
-  table(columns: shfn.args.len() + 1, ..(shfn.args.map(name), eval(shfn.func_body, mode: "math"), tb).flatten())
+  table(
+    columns: shfn.args.len() + 1, ..(shfn.args.map(name), eval(shfn.func_body, mode: "math"), tb).flatten(),
+  )
 }

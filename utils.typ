@@ -3,17 +3,14 @@
 #show "thm-qed-symbol": none
 // ------- ОФРОМЛЕНИЕ global --------
 #set heading(numbering: "1.1.")
-#set math.equation(numbering: "[1.1]", )
+#set math.equation(numbering: "[1.1]")
 
-// ------- ref 
+// ------- ref
 #show ref: it => {
   let eq = math.equation
   let el = it.element
   if el != none and el.func() == eq {
-    numbering(
-      el.numbering,
-      ..counter(eq).at(el.location())
-    )
+    numbering(el.numbering, ..counter(eq).at(el.location()))
   } else {
     it
   }
@@ -36,11 +33,7 @@ TODO:
 
 // ------- заключения
 #let corollary = thmplain(
-  "заключение",
-  "Заключение",
-  base: "theorem",
-  titlefmt: strong, fill: rgb("DDA0DD"), 
- inset: 1em 
+  "заключение", "Заключение", base: "theorem", titlefmt: strong, fill: rgb("DDA0DD"), inset: 1em,
 )
 
 // ------- определения
@@ -50,16 +43,11 @@ TODO:
 #let example = thmplain("example", "Пример").with(numbering: none)
 
 // ------- доказательства
-#let liner(title, body) = block(
-  above: 2em, stroke: (left: 2pt),
-  width: 100%, inset: 14pt
-)[
+#let liner(title, body) = block(above: 2em, stroke: (left: 2pt), width: 100%, inset: 14pt)[
   #set text(font: "Noto Sans")
   #place(
-    top + left,
-    dy: - 1em, // Account for inset of block
-    dx: 6pt - 1em,
-    [_*#title*_]
+    top + left, dy: - 1em, // Account for inset of block
+    dx: 6pt - 1em, [_*#title*_],
   )
   #body
 ]
