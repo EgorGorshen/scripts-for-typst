@@ -1,6 +1,7 @@
 #import "@preview/ctheorems:1.1.2": *
 #show: thmrules.with(qed-symbol: $square$)
 #show "thm-qed-symbol": none
+
 // ------- ОФРОМЛЕНИЕ global --------
 #set heading(numbering: "1.1.")
 #set math.equation(numbering: "[1.1]")
@@ -15,18 +16,6 @@
     it
   }
 }
-
-// ------- ОФОРМЛЕНИЕ БЛОКОВ -------
-
-/*
-TODO:
-- [x] теоремы
-- [x] доказательства
-- [x] определения
-- [x] примеры
-- [x] заключения
-- [ ] задачи
-*/
 
 // ------- теормы
 #let theorem = thmbox("theorem", "Теорема", fill: rgb("#FFB347"), stroke: (left: 0.25em))

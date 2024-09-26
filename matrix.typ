@@ -2,6 +2,7 @@
 #import "@preview/suiji:0.3.0": *
 
 #let M = matrix => math.mat(..matrix)
+
 #let matT = matrix => {
   let ret = ()
   for i in range(matrix.at(0).len()) {
@@ -99,18 +100,6 @@
     ret += calc.pow(-1, i) * A.at(0).at(i) * matDet(subMatrix)
   }
   return ret
-}
-
-#let matTranc(A) = {
-  let ret = ()
-  for j in range(A.at(0).len()) {
-    let r = ()
-    for i in range(A.len()) {
-      r.push(A.at(i).at(j))
-    }
-    ret.push(r)
-  }
-  ret
 }
 
 #let matMinorWithNums(A) = {
