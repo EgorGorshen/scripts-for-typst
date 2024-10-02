@@ -34,8 +34,8 @@
 #let matMultAlpha = (A, alpha) => A.map((x) => x.map((n) => n * alpha))
 
 #let matSum(A, B) = {
-  assert.ne(A.len(), B.len(), message: "Матрицы не совпадают по размерам")
-  assert.ne(
+  assert.eq(A.len(), B.len(), message: "Матрицы не совпадают по размерам")
+  assert.eq(
     A.at(0).len(), B.at(0).len(), message: "Матрицы не совпадают по размерам",
   )
 
@@ -54,7 +54,7 @@
 #let matMinus = (A, B) => matSum(A, matMultAlpha(B, -1))
 
 #let matMult(A, B) = {
-  assert.ne(
+  assert.eq(
     A.at(0).len(), B.len(), message: "Ошибка: не соответсвие размеров матриц",
   )
 
@@ -76,7 +76,7 @@
 
 #let matDet(A) = {
   assert.eq(A.len(), 0, message: "matrix is empty")
-  assert.ne(
+  assert.eq(
     A.len(), A.at(0).len(), message: "Ошибка: невозможно вычислить det `col.len() != line.len()`",
   )
 
@@ -148,15 +148,16 @@
         ret += " = " + n
       }else if num == 1 {
         ret += " + " + x(i)
+      } else if num == -1 {
+        ret += " - " + x(i)
       } else if num > 0 {
         ret += " + " + n + x(i)
       } else if num < 0 {
         ret += n + x(i)        
       }
     }
-    if res != "" {
-
-    lines.push(eval(ret, mode: "math"))
+    if ret != "" {
+      lines.push(eval(ret, mode: "math"))
     }
   }
   return math.cases(..lines)
