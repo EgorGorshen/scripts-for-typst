@@ -31,6 +31,23 @@
 #let rmatI = (n, m, rn) => rmatrix(n, m, rn: rn)
 #let rmatF = (n, m, rn, fr: 2) => rmatrix(n, m, tp: "float", fround: fr)
 
+#let matE(n) = {
+  let ret = ()
+
+  for i in range(n) {
+    let r = ()
+    for j in range(n) {
+      if i == j {
+        r.push(1)
+      } else {
+        r.push(0)
+      }
+    }
+    ret.push(r)
+  }
+  return ret
+}
+
 #let matMultAlpha = (A, alpha) => A.map((x) => x.map((n) => n * alpha))
 
 #let matSum(A, B) = {
@@ -161,4 +178,32 @@
     }
   }
   return math.cases(..lines)
+}
+
+#let matTr(matrix) = {
+  let sm = 0
+
+  for i in range(calc.min(matrix.len(), matrix.at(0).len())) {
+    sm += matrix.at(i).at(i)
+  } 
+  return sm
+}
+
+#let matPowInside(matrix, pow) = {
+  if pow == 0 {
+    return matE(matrix.len())
+  }
+
+  return matMult(matrix, matPowInside(matrix, pow - 1))
+}
+
+#let matPow(matrix, pow) = {
+  assert(pow >= -1, "Степени разрешается быть только больше или ранвой -1")
+  assert.eq(matrix.len(), matrix.at(0).len(), "Для возведения в степень матрица должна быть квадратной")
+
+  if pow = -1 {
+    return matMinus1Pow(matrix)
+  }
+
+  return matPowInside(matrix, pow)
 }
