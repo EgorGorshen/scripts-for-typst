@@ -92,7 +92,7 @@
 }
 
 #let matDet(A) = {
-  assert.eq(A.len(), 0, message: "matrix is empty")
+  assert.ne(A.len(), 0, message: "matrix is empty")
   assert.eq(
     A.len(), A.at(0).len(), message: "Ошибка: невозможно вычислить det `col.len() != line.len()`",
   )
@@ -130,7 +130,7 @@
         x.remove(j)
         return x
       })
-      r.push(calc.pow(-1, i + j) * matDet(B))
+      r.push(matDet(B))
     }
     ret.push(r)
   }
@@ -142,7 +142,7 @@
 #let matMinus1Pow = mt => matMultAlpha(matMinor(matT(mt)), 1 / matDet(mt))
 
 #let matPrintAsCases(matrix) = {
-  let x = i => "x_" + str(i+1)
+  let x = i => "x_" + str(i + 1)
 
   let lines = ()
   for line in matrix {
@@ -163,14 +163,14 @@
         }
       } else if i == line.len() - 1 {
         ret += " = " + n
-      }else if num == 1 {
+      } else if num == 1 {
         ret += " + " + x(i)
       } else if num == -1 {
         ret += " - " + x(i)
       } else if num > 0 {
         ret += " + " + n + x(i)
       } else if num < 0 {
-        ret += n + x(i)        
+        ret += n + x(i)
       }
     }
     if ret != "" {
@@ -185,10 +185,11 @@
 
   for i in range(calc.min(matrix.len(), matrix.at(0).len())) {
     sm += matrix.at(i).at(i)
-  } 
+  }
   return sm
 }
 
+// TODO: оптимизировать до O(log(n)) через (a^2)^(n/2)
 #let matPowInside(matrix, pow) = {
   if pow == 0 {
     return matE(matrix.len())
@@ -199,7 +200,9 @@
 
 #let matPow(matrix, pow) = {
   assert(pow >= -1, "Степени разрешается быть только больше или ранвой -1")
-  assert.eq(matrix.len(), matrix.at(0).len(), "Для возведения в степень матрица должна быть квадратной")
+  assert.eq(
+    matrix.len(), matrix.at(0).len(), "Для возведения в степень матрица должна быть квадратной",
+  )
 
   if pow = -1 {
     return matMinus1Pow(matrix)

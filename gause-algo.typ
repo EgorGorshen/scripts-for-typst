@@ -1,7 +1,7 @@
+// TODO: create state mashin to use it as iterators in rust
 #import "@preview/pyrunner:0.1.0" as py
 
-#let compiled = py.compile(
-  ```python
+#let compiled = py.compile(```python
     def gaussian_elimination(matrix):
         from fractions import Fraction
         rows = len(matrix)
